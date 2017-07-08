@@ -33,7 +33,13 @@ class App extends Component {
     renderContent = () => {
         switch (this.state.loggedIn) {
             case true:
-                return (<Content padder><Button block><Text>Sign Out</Text></Button></Content>);
+                return (
+                    <Content padder>
+                        <Button block onPress={() => firebase.auth().signOut()}>
+                            <Text>Sign Out</Text>
+                        </Button>
+                    </Content>
+                    );
             case false:
                 return (<ContentMain />); 
             default:
