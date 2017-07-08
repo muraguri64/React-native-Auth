@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
 import { 
       Content, Form, Item, Input, Label, Button, Text
  } from 'native-base';
@@ -6,7 +7,12 @@ import {
  import { View } from 'react-native';
 
  class Contentmain extends Component { 
-    state = { email: '', password: '' };     
+    state = { email: '', password: '' };    
+    onButtonPress() {
+        const { email, password } = this.state;
+        firebase.auth.signInWithEmailAndPassword(email, password);
+    } 
+
     render() {
         return (
 
@@ -30,10 +36,11 @@ import {
                     </Item>
                 </Form>
                 <View style={{ marginTop: 40 }}>
-                    <Button block rounded>
+                    <Button block rounded onPress={this.onButtonPress}>
                         <Text>Sign In</Text>
                     </Button>
-                </View>                                
+                </View>    
+                                           
             </Content>
         ); 
     }
