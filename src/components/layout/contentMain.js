@@ -5,13 +5,14 @@ import {
  } from 'native-base';
 
  import { View } from 'react-native';
+ import Spinner from './spinner';
 
  class Contentmain extends Component { 
-    state = { email: '', password: '', err_msg: '' };    
+    state = { email: '', password: '', err_msg: '', loading: false };    
     
     onButtonPress = () => {        
         const { email, password } = this.state;
-        this.setState({ err_msg: '' });
+        this.setState({ err_msg: '', loading: true });
 
         firebase.auth().signInWithEmailAndPassword(email, password)
                 .catch(() => {
@@ -20,6 +21,18 @@ import {
                                 this.setState({ err_msg: 'Authentication failed' });
                             });
                 });                
+    };
+
+    renderButton = () => {
+        if (this.state.loading) {
+            return <Spinner size='large' />;
+        }
+
+        return (
+            <Button block rounded onPress={this.onButtonPress}>
+                <Text>Sign In</Text>
+            </Button>
+        );
     };
 
     render() {
@@ -45,9 +58,7 @@ import {
                     </Item>
                 </Form>
                 <View style={{ marginTop: 40 }}>
-                    <Button block rounded onPress={this.onButtonPress}>
-                        <Text>Sign In</Text>
-                    </Button>
+                    { this.renderButton() }
                 </View>    
                 <View>
                     <Text
