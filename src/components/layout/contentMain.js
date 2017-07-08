@@ -5,7 +5,8 @@ import {
 
  import { View } from 'react-native';
 
- class Contentmain extends Component {      
+ class Contentmain extends Component { 
+    state = { email: '', password: '' };     
     render() {
         return (
 
@@ -13,12 +14,19 @@ import {
                               
                 <Form>
                     <Item floatingLabel>
-                        <Label>Username</Label>
-                        <Input />
+                        <Label>Email</Label>
+                        <Input 
+                            onChangeText={email => this.setState({ email })} 
+                            value={this.state.email} 
+                        />
                     </Item>
                     <Item floatingLabel>
                         <Label>Password</Label>
-                        <Input />
+                        <Input 
+                            onChangeText={password => this.setState({ password })}
+                            value={this.state.password}
+                            secureTextEntry
+                        />
                     </Item>
                 </Form>
                 <View style={{ marginTop: 40 }}>
