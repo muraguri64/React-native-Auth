@@ -7,17 +7,19 @@ import {
  import { View } from 'react-native';
 
  class Contentmain extends Component { 
-    state = { email: '', password: '', error: '' };    
+    state = { email: '', password: '', err_msg: '' };    
     
-    onButtonPress = () => {
+    onButtonPress = () => {        
         const { email, password } = this.state;
+        this.setState({ err_msg: '' });
+
         firebase.auth().signInWithEmailAndPassword(email, password)
                 .catch(() => {
                     firebase.auth().createUserWithEmailAndPassword(email, password)
                             .catch(() => {
-                                this.setState({ error: 'Authentication failed' });
+                                this.setState({ err_msg: 'Authentication failed' });
                             });
-                });
+                });                
     };
 
     render() {
@@ -48,8 +50,14 @@ import {
                     </Button>
                 </View>    
                 <View>
-                    <Text style={{ color: 'red' }}>
-                        {this.state.error}
+                    <Text
+                        style={{ 
+                                  color: 'red', 
+                                  marginTop: 30, 
+                                  alignSelf: 'center' 
+                              }}
+                    >                        
+                        {this.state.err_msg}
                     </Text>
                 </View>
                                            
