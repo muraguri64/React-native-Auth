@@ -15,12 +15,26 @@ import {
         this.setState({ err_msg: '', loading: true });
 
         firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(this.onLoginSuccess.bind(this))
                 .catch(() => {
                     firebase.auth().createUserWithEmailAndPassword(email, password)
-                            .catch(() => {
-                                this.setState({ err_msg: 'Authentication failed' });
-                            });
+                            .then(this.onLoginSuccess.bind(this))
+                            .catch(this.onLoginFail.bind(this));
                 });                
+    };
+
+
+    onLoginFail = () => {
+         this.setState({ err_msg: 'Authentication failed', loading: false });
+    };
+
+    onLoginSuccess = () => {
+         this.setState({
+             email: '',
+             password: '',
+             loading: false,
+             err_msg: ''
+         });
     };
 
     renderButton = () => {
