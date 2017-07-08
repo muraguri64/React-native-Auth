@@ -7,11 +7,18 @@ import {
  import { View } from 'react-native';
 
  class Contentmain extends Component { 
-    state = { email: '', password: '' };    
-    onButtonPress() {
+    state = { email: '', password: '', error: '' };    
+    
+    onButtonPress = () => {
         const { email, password } = this.state;
-        firebase.auth.signInWithEmailAndPassword(email, password);
-    } 
+        firebase.auth().signInWithEmailAndPassword(email, password)
+                .catch(() => {
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                            .catch(() => {
+                                this.setState({ error: 'Authentication failed' });
+                            });
+                });
+    };
 
     render() {
         return (
@@ -40,6 +47,11 @@ import {
                         <Text>Sign In</Text>
                     </Button>
                 </View>    
+                <View>
+                    <Text style={{ color: 'red' }}>
+                        {this.state.error}
+                    </Text>
+                </View>
                                            
             </Content>
         ); 
