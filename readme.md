@@ -1,4 +1,4 @@
-https://github.com/muraguri64/React-native-Auth
+https://github.com/muraguri64/auth
 
 # Authentication App Using React Native
 
